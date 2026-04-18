@@ -1,1 +1,795 @@
-<!DOCTYPE html><html><body><h1>Hello World</h1></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Your Name — Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #0d0d0f;
+      --surface:  #141417;
+      --border:   #232328;
+      --text:     #e8e6e0;
+      --muted:    #6b6a66;
+      --accent:   #c8b97e;
+      --accent2:  #7e9fc8;
+      --serif:    'DM Serif Display', Georgia, serif;
+      --sans:     'DM Sans', system-ui, sans-serif;
+      --mono:     'DM Mono', 'Fira Code', monospace;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      font-size: 16px;
+      line-height: 1.7;
+      min-height: 100vh;
+    }
+
+    /* ── Nav ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.25rem 3rem;
+      border-bottom: 1px solid var(--border);
+      background: rgba(13, 13, 15, 0.85);
+      backdrop-filter: blur(12px);
+    }
+
+    .nav-logo {
+      font-family: var(--mono);
+      font-size: 0.85rem;
+      color: var(--accent);
+      letter-spacing: 0.05em;
+      text-decoration: none;
+    }
+
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      font-size: 0.85rem;
+      color: var(--muted);
+      text-decoration: none;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--text); }
+
+    /* ── Hero ── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 8rem 3rem 5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 50% at 80% 30%, rgba(200, 185, 126, 0.06) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 40% at 20% 70%, rgba(126, 159, 200, 0.06) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-tag {
+      font-family: var(--mono);
+      font-size: 0.8rem;
+      color: var(--accent);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero h1 {
+      font-family: var(--serif);
+      font-size: clamp(3rem, 8vw, 7rem);
+      line-height: 1.05;
+      font-weight: 400;
+      letter-spacing: -0.02em;
+      max-width: 14ch;
+      margin-bottom: 2rem;
+    }
+
+    .hero h1 em {
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    .hero-sub {
+      font-size: 1.05rem;
+      color: var(--muted);
+      max-width: 42ch;
+      margin-bottom: 3rem;
+      line-height: 1.6;
+    }
+
+    .hero-cta {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.75rem;
+      border-radius: 2px;
+      font-size: 0.85rem;
+      font-family: var(--mono);
+      letter-spacing: 0.06em;
+      text-decoration: none;
+      text-transform: uppercase;
+      transition: all 0.2s;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #0d0d0f;
+      border: 1px solid var(--accent);
+    }
+    .btn-primary:hover { background: #d4c892; }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--muted);
+      border: 1px solid var(--border);
+    }
+    .btn-ghost:hover { color: var(--text); border-color: var(--muted); }
+
+    /* ── Sections ── */
+    section {
+      padding: 6rem 3rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      color: var(--accent);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 0.75rem;
+    }
+
+    .section-title {
+      font-family: var(--serif);
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 400;
+      line-height: 1.1;
+      margin-bottom: 3rem;
+    }
+
+    /* ── About ── */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: start;
+    }
+
+    .about-text p {
+      color: var(--muted);
+      margin-bottom: 1.25rem;
+      font-size: 1rem;
+    }
+
+    .skills-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 2rem;
+    }
+
+    .skill-tag {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      padding: 0.3rem 0.8rem;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      border-radius: 2px;
+      letter-spacing: 0.04em;
+    }
+
+    .about-stats {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      padding-top: 0.5rem;
+    }
+
+    .stat {
+      border-left: 1px solid var(--accent);
+      padding-left: 1.5rem;
+    }
+
+    .stat-number {
+      font-family: var(--serif);
+      font-size: 3rem;
+      line-height: 1;
+      color: var(--text);
+      margin-bottom: 0.25rem;
+    }
+
+    .stat-label {
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+
+    /* ── Projects ── */
+    .projects-grid {
+      display: flex;
+      flex-direction: column;
+      border: 1px solid var(--border);
+    }
+
+    .project-card {
+      background: var(--surface);
+      padding: 2rem 2.5rem;
+      text-decoration: none;
+      color: inherit;
+      display: grid;
+      grid-template-columns: 3rem 1fr;
+      grid-template-rows: auto auto;
+      column-gap: 2rem;
+      row-gap: 0.5rem;
+      align-items: start;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .project-card:last-child { border-bottom: none; }
+
+    .project-card:hover { background: #1a1a1e; }
+
+    .project-col {
+      grid-column: 2;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .project-header { display: flex; flex-direction: column; gap: 0.2rem; }
+
+    .project-company {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      color: var(--muted);
+      letter-spacing: 0.04em;
+    }
+
+    .project-highlights {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+
+    .highlight {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      padding: 0.25rem 0.6rem;
+      background: rgba(200, 185, 126, 0.08);
+      border: 1px solid rgba(200, 185, 126, 0.2);
+      color: var(--accent);
+      border-radius: 2px;
+      letter-spacing: 0.04em;
+    }
+
+    .project-number {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: var(--accent);
+      letter-spacing: 0.1em;
+      padding-top: 0.3rem;
+      grid-column: 1;
+      grid-row: 1;
+    }
+
+    .project-title {
+      font-family: var(--serif);
+      font-size: 1.4rem;
+      font-weight: 400;
+      line-height: 1.2;
+    }
+
+    .project-desc {
+      font-size: 0.9rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .project-tech {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+
+    .tech-badge {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: var(--accent2);
+      letter-spacing: 0.06em;
+    }
+
+
+
+    /* ── Contact ── */
+    .contact-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    .contact-text p {
+      color: var(--muted);
+      margin-bottom: 2rem;
+      font-size: 1rem;
+    }
+
+    .contact-links {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .contact-link {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      padding: 1rem 1.25rem;
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      transition: all 0.2s;
+    }
+
+    .contact-link:hover {
+      color: var(--text);
+      border-color: var(--muted);
+      background: var(--surface);
+    }
+
+    .contact-link-label {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: var(--accent);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      display: block;
+      margin-bottom: 0.1rem;
+    }
+
+    /* ── Footer ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2rem 3rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    footer span {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      color: var(--muted);
+      letter-spacing: 0.05em;
+    }
+
+    /* ── Hero photo ── */
+    .hero-inner {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: end;
+      gap: 4rem;
+    }
+
+    .hero-photo-wrap {
+      position: relative;
+      width: 220px;
+      flex-shrink: 0;
+    }
+
+    .hero-photo {
+      width: 220px;
+      height: 280px;
+      object-fit: cover;
+      display: block;
+      border: 1px solid var(--border);
+      filter: grayscale(20%);
+    }
+
+    .hero-photo-placeholder {
+      width: 220px;
+      height: 280px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+    }
+
+    .hero-photo-placeholder svg {
+      opacity: 0.25;
+    }
+
+    .hero-photo-placeholder span {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+    }
+
+    .hero-photo-frame {
+      position: absolute;
+      inset: 8px -8px -8px 8px;
+      border: 1px solid var(--border);
+      z-index: -1;
+    }
+
+    @media (max-width: 768px) {
+      .hero-inner { grid-template-columns: 1fr; }
+      .hero-photo-wrap { display: none; }
+    }
+
+    /* ── Divider ── */
+    .full-divider {
+      border: none;
+      border-top: 1px solid var(--border);
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { gap: 1.25rem; }
+      .hero { padding: 7rem 1.5rem 4rem; }
+      section { padding: 4rem 1.5rem; }
+      .about-grid, .contact-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+      footer { flex-direction: column; gap: 0.5rem; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Nav -->
+  <nav>
+    <a class="nav-logo" href="#">HGH</a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#projects">Work</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero" style="max-width: none;">
+    <div class="hero-bg"></div>
+    <div class="hero-inner">
+      <div class="hero-content">
+        <h1>Hesam Ghamari</h1>
+        <p class="hero-sub">
+          Software engineer focused on systems, performance, and well-crafted interfaces.
+          I care about the details that make software feel right.
+        </p>
+        <div class="hero-cta">
+          <a class="btn btn-primary" href="#projects">See my work</a>
+          <a class="btn btn-ghost" href="#contact">Get in touch</a>
+        </div>
+      </div>
+
+      <!-- <div class="hero-photo-wrap"> -->
+      <!--   <div class="hero-photo-placeholder"> -->
+      <!--     <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" xmlns="http://www.w3.org/2000/svg"> -->
+      <!--       <circle cx="12" cy="8" r="4"/> -->
+      <!--       <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/> -->
+      <!--     </svg> -->
+      <!--     <span>your photo here</span> -->
+      <!--   </div> -->
+      <!--   <div class="hero-photo-frame"></div> -->
+      </div>
+    </div>
+  </section>
+
+  <hr class="full-divider" />
+
+  <!-- About -->
+  <section id="about">
+    <p class="section-label">// about</p>
+    <h2 class="section-title">Who I am</h2>
+    <div class="about-grid">
+      <div class="about-text">
+        <p>
+        I'm a software engineer with nearly 6 years of experience across a wide range of domains from game development and mobile to frontend and backend engineering. 
+        That breadth of exposure gave me a strong foundation and a clear sense of where I work best.
+
+        Over the past 2 years, I've narrowed my focus to designing ultra-low latency HFT services, where performance isn't just a feature, it's the product. 
+        This is the space I'm most passionate about and where I want to continue growing.
+
+        More recently, I've developed a growing interest in systems development and low level programming, drawn by the challenge of understanding and optimizing what happens closer to the metal.
+
+        I'm always looking to connect with engineers and teams pushing the boundaries of performance critical systems.
+        </p>
+        <p>
+          When I'm not writing code, I'm reading about computer architecture,
+          system desing patterns, or exploring new programming paradigms.
+        </p>
+        <div class="skills-list">
+          <span class="skill-tag">Clojure</span>
+          <span class="skill-tag">Java</span>
+          <span class="skill-tag">Lmax Disruptor</span>
+          <span class="skill-tag">RabbitMQ</span>
+          <span class="skill-tag">Kafka</span>
+          <span class="skill-tag">C++</span>
+          <span class="skill-tag">Rust</span>
+          <span class="skill-tag">Python</span>
+          <span class="skill-tag">Go</span>
+          <span class="skill-tag">Linux</span>
+          <span class="skill-tag">Systems Design</span>
+        </div>
+      </div>
+      <div class="about-stats">
+        <div class="stat">
+          <div class="stat-number">6+</div>
+          <div class="stat-label">Years of engineering experience</div>
+        </div>
+        <div class="stat">
+          <div class="stat-number">20+</div>
+          <div class="stat-label">Projects shipped</div>
+        </div>
+        <div class="stat">
+          <div class="stat-number">∞</div>
+          <div class="stat-label">Problems left to solve</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="full-divider" />
+
+  <!-- Projects -->
+  <section id="projects" style="max-width: none; padding-left: 0; padding-right: 0;">
+    <div style="padding: 0 3rem; max-width: 1100px; margin: 0 auto 3rem;">
+      <p class="section-label">// selected work</p>
+      <h2 class="section-title">Projects</h2>
+    </div>
+    <div class="projects-grid">
+
+      <div class="project-card">
+        <div class="project-number">01</div>
+        <div class="project-col">
+          <div class="project-header">
+            <div class="project-title">Market Data Ingestion Services</div>
+            <div class="project-company">Hermes Capital &mdash; HFT Platform</div>
+          </div>
+          <p class="project-desc">
+            Re-architected all market data ingestion services covering order books, public &amp; private trades,
+            real-time order lifecycle, and OHLC data. Achieved ~2–3 µs internal latency using the LMAX Disruptor
+            pattern, reduced WebSocket downtime to under 1 minute/day, and cut the required infrastructure
+            nodes by ~75% while improving fault tolerance and reliability.
+          </p>
+          <div class="project-highlights">
+            <span class="highlight">~2–3 µs latency</span>
+            <span class="highlight">75% fewer nodes</span>
+            <span class="highlight">&lt;1 min/day downtime</span>
+          </div>
+          <div class="project-tech">
+            <span class="tech-badge">Clojure</span>&nbsp;&middot;
+            <span class="tech-badge">Java</span>&nbsp;&middot;
+            <span class="tech-badge">Kafka</span>&nbsp;&middot;
+            <span class="tech-badge">RabbitMQ</span>&nbsp;&middot;
+            <span class="tech-badge">LMAX Disruptor</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-number">02</div>
+        <div class="project-col">
+          <div class="project-header">
+            <div class="project-title">Market-Making Algorithm</div>
+            <div class="project-company">Hermes Capital &mdash; HFT Platform</div>
+          </div>
+          <p class="project-desc">
+            Designed and implemented a market-making algorithm for gold-backed funds with
+            portfolio-aware execution, synchronized order handling, and direct impact modeling
+            per fund. Introduced a new LMAX-based architecture for trading algorithms that
+            reduced resource usage by ~40% and lowered infrastructure costs by 10–15%.
+            Achieved approximately 7% monthly return.
+          </p>
+          <div class="project-highlights">
+            <span class="highlight">~7% monthly return</span>
+            <span class="highlight">40% less resources</span>
+            <span class="highlight">10–15% cost reduction</span>
+          </div>
+          <div class="project-tech">
+            <span class="tech-badge">Clojure</span>&nbsp;&middot;
+            <span class="tech-badge">C++</span>&nbsp;&middot;
+            <span class="tech-badge">LMAX Disruptor</span>&nbsp;&middot;
+            <span class="tech-badge">Java</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-number">03</div>
+        <div class="project-col">
+          <div class="project-header">
+            <div class="project-title">Real-Time Alerting Service</div>
+            <div class="project-company">Hermes Capital &mdash; HFT Platform</div>
+          </div>
+          <p class="project-desc">
+            Designed and implemented an alerting service from scratch that reduced internal downtime
+            by ~90% with 5–30 second detection times via a redesigned logging architecture.
+            Features included configurable multi-channel notifiers, scheduled routing to responsible
+            team members, severity-based rule definitions, and fast alert integration via structured schemas.
+          </p>
+          <div class="project-highlights">
+            <span class="highlight">90% less downtime</span>
+            <span class="highlight">5–30s detection</span>
+            <span class="highlight">Multi-channel alerts</span>
+          </div>
+          <div class="project-tech">
+            <span class="tech-badge">ELK Stack</span>&nbsp;&middot;
+            <span class="tech-badge">Clojure</span>&nbsp;&middot;
+            <span class="tech-badge">Docker</span>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="project-card">
+        <div class="project-number">04</div>
+        <div class="project-col">
+          <div class="project-header">
+            <div class="project-title">Data Recovery &amp; Gap-Filling System</div>
+            <div class="project-company">Hermes Capital &mdash; HFT Platform</div>
+          </div>
+          <p class="project-desc">
+            Designed and implemented a data recovery and gap-filling system for market data,
+            reducing historical data loss by ~99%. Also built a rate-limit control system for
+            HTTP-based services and a high-performance ClickHouse-based data pipeline serving
+            the Data and Quant teams with significant analytics performance improvements.
+          </p>
+          <div class="project-highlights">
+            <span class="highlight">99% less data loss</span>
+            <span class="highlight">Quant team pipeline</span>
+          </div>
+          <div class="project-tech">
+            <span class="tech-badge">Clojure</span>&nbsp;&middot;
+            <span class="tech-badge">ClickHouse</span>&nbsp;&middot;
+            <span class="tech-badge">Lmax</span>&nbsp;&middot;
+            <span class="tech-badge">Kafka</span>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="project-card">
+        <div class="project-number">05</div>
+        <div class="project-col">
+          <div class="project-header">
+            <div class="project-title">IoT Device Management Platform</div>
+            <div class="project-company">MCI &mdash; Mobile Communications Company of Iran</div>
+          </div>
+          <p class="project-desc">
+            Built a centralized backend system for managing and controlling IoT devices at scale.
+            Established Zigbee gateway communication, implemented real-time WebSocket monitoring,
+            and designed device configuration, firmware update, and group scheduling systems.
+            Handled ~3,000 real-time device data inputs per node.
+          </p>
+          <div class="project-highlights">
+            <span class="highlight">3k events/node</span>
+            <span class="highlight">Zigbee integration</span>
+            <span class="highlight">Real-time WebSockets</span>
+          </div>
+          <div class="project-tech">
+            <span class="tech-badge">Python</span>&nbsp;&middot;
+            <span class="tech-badge">Django</span>&nbsp;&middot;
+            <span class="tech-badge">MQTT</span>&nbsp;&middot;
+            <span class="tech-badge">RabbitMQ</span>&nbsp;&middot;
+            <span class="tech-badge">PostgreSQL</span>&nbsp;&middot;
+            <span class="tech-badge">Redis</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-number">06</div>
+        <div class="project-col">
+          <div class="project-header">
+            <div class="project-title">Automation Engine</div>
+            <div class="project-company">MCI &mdash; Mobile Communications Company of Iran</div>
+          </div>
+          <p class="project-desc">
+            Built a powerful automation engine allowing users to define custom workflows based on
+            conditions, time triggers, and real-time device states — executing synchronized actions
+            across multiple devices. Also developed modular dashboard APIs with full customization
+            support and a device detection system capable of intelligently suggesting relevant data
+            fields with high accuracy. Shipped CI/CD pipelines via GitLab CI.
+          </p>
+          <div class="project-highlights">
+            <span class="highlight">Event-driven execution</span>
+            <span class="highlight">Multi-device sync</span>
+            <span class="highlight">CI/CD pipelines</span>
+          </div>
+          <div class="project-tech">
+            <span class="tech-badge">Python</span>&nbsp;&middot;
+            <span class="tech-badge">Django</span>&nbsp;&middot;
+            <span class="tech-badge">Celery</span>&nbsp;&middot;
+            <span class="tech-badge">MongoDB</span>&nbsp;&middot;
+            <span class="tech-badge">GitLab CI</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <hr class="full-divider" />
+
+  <!-- Contact -->
+  <section id="contact">
+    <p class="section-label">// contact</p>
+    <h2 class="section-title">Let's talk</h2>
+    <div class="contact-inner">
+      <div class="contact-text">
+        <p>
+          I'm currently open to new opportunities — freelance projects,
+          full-time roles, or interesting collaborations. If you have something
+          worth building, I'd love to hear about it.
+        </p>
+        <a class="btn btn-primary" href="mailto:ghamarym.hesam@gmail.com">Send an email ↗</a>
+      </div>
+      <div class="contact-links">
+        <a class="contact-link" href="https://github.com/hesam-ghamary" target="_blank" rel="noopener">
+          <div>
+            <span class="contact-link-label">GitHub</span>
+            github.com/yourusername
+          </div>
+        </a>
+        <a class="contact-link" href="https://linkedin.com/in/hesam-ghamary" target="_blank" rel="noopener">
+          <div>
+            <span class="contact-link-label">LinkedIn</span>
+            linkedin.com/in/yourusername
+          </div>
+        </a>
+        <!-- <a class="contact-link" href="https://twitter.com/yourusername" target="_blank" rel="noopener"> -->
+        <!--   <div> -->
+        <!--     <span class="contact-link-label">Twitter / X</span> -->
+        <!--     @yourusername -->
+        <!--   </div> -->
+        <!-- </a> -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <span>© 2026 Amu Hesam</span>
+    <span>Built with HTML & CSS — no frameworks</span>
+  </footer>
+
+</body>
+</html>
